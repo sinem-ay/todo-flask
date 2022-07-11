@@ -29,4 +29,25 @@ def delete_task():
     response_data = config.remove_from_list(task)
     return response_data
 
+
 # curl -X DELETE http://127.0.0.1:5000/task/delete/ -d '{"task": "Go for grocery"}' -H 'Content-Type: application/json'
+
+
+@app.route('/task/update/', methods=['PUT'])
+def update_task():
+    request_data = request.get_json()
+    task = request_data['task']
+    status = request_data['status']
+
+    response_data = config.update_status(task,status)
+    return response_data
+
+
+# curl -X PUT http://127.0.0.1:5000/task/update/ -d '{"task": "Go for grocery", "status": "In Progress"}' -H 'Content-Type: application/json'
+
+@app.route('/task/all/', methods=['GET'])
+def get_tasks():
+    response_data = config.all_tasks()
+    return response_data
+
+# curl -X GET http://127.0.0.1:5000/task/all/

@@ -34,5 +34,27 @@ def remove_from_list(task):
         return None
 
 
-def update_status(task):
-    pass
+def update_status(task, status):
+    try:
+        conn = sqlite3.connect(DB_PATH)
+        c = conn.cursor()
+        c.execute('update tasks set status=? where task=?', (task, status))
+        conn.commit()
+        return {task: status}
+
+    except Exception as error:
+        print('Error: ', error)
+        return None
+
+
+def all_tasks():
+    try:
+        conn = sqlite3.connect(DB_PATH)
+        c = conn.cursor()
+        c.execute('select * from tasks')
+        task_list = c.fetchall()
+        return {"task": task_list}
+
+    except Exception as error:
+        print('Error: ', error)
+        return None
